@@ -70,7 +70,7 @@ while(imgOneIndex === imgTwoIndex){
   imgOne.alt = allGoats[imgOneIndex].name;
   allGoats[imgOneIndex].views++;
   imgTwo.src = allGoats[imgTwoIndex].photo;
-  imgTwo.alt - allGoats[imgTwoIndex].name;
+  imgTwo.alt = allGoats[imgTwoIndex].name;
   allGoats[imgTwoIndex].views++;
 
 }
@@ -100,16 +100,99 @@ function handleClick(event){
   
  }
 
+//  in the new class12, we are going to take off element append for liElem and call on the renderchart function
  function handleShowResults(){
   if(totalVotes === 0){
-    for(let i = 0; i < allGoats.length; i++){
-      let liElem = document.createElement('li');
-      liElem.textContent = `${allGoats[1].name}: views: ${allGoats[i].views}, votes: ${allGoats[i].votes}`;
-      resultsList.appendChild(liElem);
-    }
+    renderChart();
+    // for(let i = 0; i < allGoats.length; i++){
+    //   let liElem = document.createElement('li');
+    //   liElem.textContent = `${allGoats[1].name} views: ${allGoats[i].views}, votes: ${allGoats[i].votes}`;
+    //   resultsList.appendChild(liElem);
+    // }
     resultsBtn.removeEventListener('click', handleShowResults);
   }
  }
+
+// ********** Chart Demo *******************
+
+let canvasElem = document.getElementById('my-chart');
+
+function renderChart(){
+
+let goatNames = [];
+let goatVotes = [];
+let goatViews = [];
+
+for(let i = 0; i < allGoat.length; i++){
+  goatNames.push(allGoats[i].name);
+  goatVotes.push(allGoats[i].votes);
+  goatViews.push(allGoats[i].views);
+}  
+
+  let myObj = {
+    type: 'bar',
+    data: {
+        labels: goatNames,
+        datasets: [{
+            label: '# of Votes',
+            data: goatVotes,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+          label: '# of Views',
+          data: goatViews,
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+      }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+};
+
+new Chart(canvasElem, myObj);
+
+}
+
+
+
+
+
 // ************** EVENT LISTENERS ******************
 
 
