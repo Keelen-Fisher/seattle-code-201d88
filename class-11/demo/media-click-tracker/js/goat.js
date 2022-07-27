@@ -18,6 +18,21 @@ let imgTwo = document.getElementById('img-two');
 let resultBtn = document.getElementById('show-results-btn');
 let resultsList = document.getElementById('results-list')
 
+// ***********LOCAL STORAGE CONTINUES**************
+
+ //  STEP 3: GET DATA OUT OF LOCAL STORAGE
+
+ let retreivedGoats = localStorage.getItem('myGoats');
+
+ console.log('retrievedGoats', retreivedGoats);
+
+
+ let parsedGoats = JSON.parse(parsedGoats);
+
+
+ console.log('parsed Goats >>>>', parsedGoats)
+
+
 
 // ********* CONSTRUCT FUNCTION **************
 
@@ -34,6 +49,27 @@ function Goat(name, photoExtension = 'jpg'){
 
 // ***************** OBJECT CREATION ********************
 
+if(retreivedGoats){
+allGoats = parsedGoats;
+// REBUILD OUR GOAT INSTANCES BY RUNNING PARSED BACK THROUGH THE CONSTRUCTOR 
+// for(let i = 0; i < parsedGoats.length; i++){
+//   if(parsedGoats[i].name === 'bunny-goat'){
+//     let reconstructedBunnyGoat = new Goat('bunny-goat', 'png');
+//     reconstructedBunnyGoat.views = parsedGoats[i].views;
+//     reconstructedBunnyGoat.votes = parsedGoats[i].votes;
+//   }
+//   else{
+//     let reconstructedGoat = new Goat(parsedGoats[i].name);
+//     reconstructedGoat.views = parsedGoats[i].views;
+//     reconstructedGoat.votes = parserdGoats[i].votes;
+//   }
+
+
+// }
+
+}
+
+else{
 new Goat('bunny-goat', 'png');
 new Goat('cool-goat');
 new Goat('crusin-goat');
@@ -43,14 +79,12 @@ new Goat('kissing-goat');
 new Goat('sassy-goat');
 new Goat('smiling-goat');
 new Goat('sweater-goat');
-
-
+}
+console.log('allGoats from Constructor >>>', allGoats);
 // *************** Helper FUNCTIONS *******************
 
 function randomIndexGenerator(){
   return Math.floor(Math.random() * allGoats.length);
-  // min - 0
-  // max - array.length-1
 }
 
 function renderImg(){
@@ -95,7 +129,18 @@ function handleClick(event){
   console.log(imgClicked);
 
   if(totalVotes === 0){
-    imgContainer.removeEventListener('click', handleClick);
+
+    // ************ LOCAL STORAGE FROM CLASS13 STARTS HERE ***********
+
+      // STEP 1: STRINGIFY THE DATA (THE ARRAY OF ALLGOATS)
+      let stringifiedGoats = JSON.stringify(allGoats);
+
+      console.log('stringified goats', stringifiedGoats)
+
+      // STEP 2: ADD TO LOCAL STORAGE
+      localStorage.setItem('myGoats', stringifiedGoats);
+
+      
   }
   
  }
@@ -104,11 +149,7 @@ function handleClick(event){
  function handleShowResults(){
   if(totalVotes === 0){
     renderChart();
-    // for(let i = 0; i < allGoats.length; i++){
-    //   let liElem = document.createElement('li');
-    //   liElem.textContent = `${allGoats[1].name} views: ${allGoats[i].views}, votes: ${allGoats[i].votes}`;
-    //   resultsList.appendChild(liElem);
-    // }
+ 
     resultsBtn.removeEventListener('click', handleShowResults);
   }
  }
